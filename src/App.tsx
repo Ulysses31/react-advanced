@@ -1,7 +1,14 @@
+import { Outlet } from "react-router-dom";
+import styles from './App.module.css';
+import NavBar from "./template/NavBar";
 
 function App() {
   return (
-    <h1>App</h1>
+    <main className={styles.main}>
+      <NavBar />
+      <hr/>
+      <Outlet />
+    </main>
   );
 }
 

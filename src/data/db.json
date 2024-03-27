@@ -10,5 +10,269 @@
       "name": "Admin",
       "isAdmin": true
     }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "General",
+      "description": "General category"
+    },
+    {
+      "id": 2,
+      "name": "Windows",
+      "description": "Windows category"
+    },
+    {
+      "id": 4,
+      "name": "Network",
+      "description": "Network category"
+    },
+    {
+      "id": 5,
+      "name": "Internet",
+      "description": "Internet category"
+    },
+    {
+      "id": 6,
+      "name": "Email",
+      "description": "Email category"
+    },
+    {
+      "id": 7,
+      "name": "Banking",
+      "description": "Home banking category"
+    },
+    {
+      "id": 8,
+      "name": "Recycle Bin",
+      "description": "Delete records category"
+    }
+  ],
+  "records": [
+    {
+      "id": 1,
+      "categoryId": 7,
+      "title": "Eurobank",
+      "username": "tauromanix",
+      "password": "paok!Ci281978!",
+      "url": "https://ebanking.eurobank.gr/#/login",
+      "notes": ""
+    },
+    {
+      "id": 2,
+      "categoryId": 7,
+      "title": "AlphaBank",
+      "username": "410459020872746",
+      "password": "Ci281978paok!1",
+      "url": "https://secure.alpha.gr/auth/ebanking/id/login?login_challenge=5223e92a76774b22bf577c147aeed3a4&lang=el",
+      "notes": ""
+    },
+    {
+      "id": 3,
+      "categoryId": 7,
+      "title": "NbgBank",
+      "username": "980843",
+      "password": "Gardenia1!",
+      "url": "",
+      "notes": ""
+    },
+    {
+      "id": 4,
+      "categoryId": 7,
+      "title": "PiraeusBank",
+      "username": "Ci281978paok",
+      "password": "ci281978455997",
+      "url": "https://www.piraeusbank.gr/el/idiwtes",
+      "notes": ""
+    },
+    {
+      "id": 5,
+      "categoryId": 6,
+      "title": "Gmail",
+      "username": "iordanidischr@gmail.com",
+      "password": "ci281978paok",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "notes": ""
+    },
+    {
+      "id": 6,
+      "categoryId": 6,
+      "title": "Hotmail",
+      "username": "nazgoul78@hotmail.com",
+      "password": "ci281978paok",
+      "url": "https://outlook.live.com/mail/0/",
+      "notes": ""
+    },
+    {
+      "id": 7,
+      "categoryId": 6,
+      "title": "Facebook",
+      "username": "alienwaregr@yahoo.com",
+      "password": "78luogzan",
+      "url": "https://www.facebook.com/",
+      "notes": ""
+    },
+    {
+      "id": 8,
+      "categoryId": 5,
+      "title": "datacenter-gr.slack.com",
+      "username": "iordanidischr",
+      "password": "ci281978",
+      "url": "https://slack.com/signin#/signin",
+      "notes": ""
+    },
+    {
+      "id": 9,
+      "categoryId": 5,
+      "title": "JetBrains",
+      "username": "Ulysses31",
+      "password": "Ci281978!",
+      "url": "https://account.jetbrains.com/login",
+      "notes": ""
+    },
+    {
+      "id": 10,
+      "categoryId": 5,
+      "title": "Apple Store",
+      "username": "iordanidischr@gmail.com",
+      "password": "Ci281978!",
+      "url": "https://secure5.store.apple.com/shop/signIn/account?ssi=1AAABjcAB6T4gUuxkuHXKzMXO3KZDJNiCWlH5NOzBx_Ac_ljy0PdeuncAAAAzaHR0cHM6Ly9zZWN1cmU1LnN0b3JlLmFwcGxlLmNvbS9zaG9wL2FjY291bnQvaG9tZXx8AAIBuAuTNFOLXQlcMHr7VLPunuKtmCM9TN0yPcRsZama4Wg",
+      "notes": ""
+    },
+    {
+      "id": 11,
+      "categoryId": 5,
+      "title": "Greek Team",
+      "username": "ulysses31",
+      "password": "ci281978",
+      "url": "",
+      "notes": ""
+    },
+    {
+      "id": 12,
+      "categoryId": 5,
+      "title": "Myf2g",
+      "username": "nazgoul78",
+      "password": "Ci281978!",
+      "url": "",
+      "notes": ""
+    },
+    {
+      "id": 13,
+      "categoryId": 5,
+      "title": "Auth0",
+      "username": "iordanidischr@gmail.com",
+      "password": "Ci281978!paok",
+      "url": "https://auth0.com/",
+      "notes": ""
+    },
+    {
+      "id": 14,
+      "categoryId": 5,
+      "title": "Facebook",
+      "username": "alienwaregr@yahoo.com",
+      "password": "Ci281978!paok",
+      "url": "https://www.facebook.com/",
+      "notes": ""
+    },
+    {
+      "id": 15,
+      "categoryId": 5,
+      "title": "Trello Atlasian",
+      "username": "iordanidischr@gmail.com",
+      "password": "ci281978",
+      "url": "https://id.atlassian.com/login?application=trello&continue=https%3A%2F%2Ftrello.com%2Fauth%2Fatlassian%2Fcallback%3Fdisplay%3DeyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%253D%253D&display=eyJ2ZXJpZmljYXRpb25TdHJhdGVneSI6InNvZnQifQ%3D%3D",
+      "notes": ""
+    },
+    {
+      "id": 16,
+      "categoryId": 5,
+      "title": "League Of Legends",
+      "username": "ulysses311978",
+      "password": "Ci281978!paok",
+      "url": "https://authenticate.riotgames.com/?client_id=prod-xsso-leagueoflegends&code_challenge=OwHgYUHidRLnryvz0rKOddnY1nU54Q58zuVLeVJ29xg&method=riot_identity&platform=web&redirect_uri=https%3A%2F%2Fauth.riotgames.com%2Fauthorize%3Fclient_id%3Dprod-xsso-leagueof",
+      "notes": ""
+    },
+    {
+      "id": 17,
+      "categoryId": 5,
+      "title": "Battlenet",
+      "username": "nazgoul78@hotmail.com",
+      "password": "!@#!Ci281978!",
+      "url": "https://eu.account.battle.net/login/en-us/?ref=https://eu.shop.battle.net/en-us&app=shop",
+      "notes": ""
+    },
+    {
+      "id": 18,
+      "categoryId": 5,
+      "title": "TwitchTV",
+      "username": "ulysses197831",
+      "password": "ci281978paok",
+      "url": "https://www.twitch.tv/",
+      "notes": ""
+    },
+    {
+      "id": 19,
+      "categoryId": 5,
+      "title": "nazgoul78@hotmail.com",
+      "username": "nazgoul78@hotmail.com",
+      "password": "ci281978paok",
+      "url": "https://outlook.live.com/mail/0/",
+      "notes": ""
+    },
+    {
+      "id": 20,
+      "categoryId": 5,
+      "title": "iordanidischr@gmail.com",
+      "username": "iordanidischr@gmail.com",
+      "password": "ci281978paok",
+      "url": "https://mail.google.com/mail/u/0/#inbox",
+      "notes": ""
+    },
+    {
+      "id": 21,
+      "categoryId": 5,
+      "title": "Steam",
+      "username": "nazgoul78",
+      "password": "Ci281978!",
+      "url": "https://store.steampowered.com/",
+      "notes": ""
+    },
+    {
+      "id": 22,
+      "categoryId": 5,
+      "title": "Mozilla Firefox",
+      "username": "iordanidischr@gmail.com",
+      "password": "ci281978paok",
+      "url": "https://www.mozilla.org/en-US/firefox/new/",
+      "notes": ""
+    },
+    {
+      "id": 23,
+      "categoryId": 5,
+      "title": "Tzoker",
+      "username": "Ulysses31",
+      "password": "Ci281978!",
+      "url": "https://opaponline.opap.gr/el/",
+      "notes": ""
+    },
+    {
+      "id": 24,
+      "categoryId": 5,
+      "title": "PameStoixima",
+      "username": "Ulysses31",
+      "password": "Ci281978!paok",
+      "url": "https://www.pamestoixima.gr/",
+      "notes": ""
+    },
+    {
+      "id": 25,
+      "categoryId": 5,
+      "title": "Heroku",
+      "username": "iordanidischr@gmail.com",
+      "password": "Ci281978!paok",
+      "url": "https://dashboard.heroku.com/apps",
+      "notes": ""
+    }
   ]
 }

@@ -1,0 +1,22 @@
+.menulist {
+  display: flex;
+  justify-content: flex-start;
+  justify-items: center;
+  align-items: center;
+  margin: 15px;
+}
+
+.menulistItem {
+  list-style: none;
+}
+
+.menulistItem a {
+  margin-right: 10px;
+  padding: 10px;
+  background-color: hsl(180, 16%, 28%);
+  color: #fff;
+}
+
+.menulistItem a:hover {
+  background-color: hsl(180, 13%, 12%);
+}
