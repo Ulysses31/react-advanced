@@ -10,21 +10,21 @@ export default class BaseService<T> implements IBaseService<T> {
 
   public async findAll(): Promise<T[]> {
     try {
-      const response = await axios.get<T[]>(this._apiEndPoint);
+      const response = await axios.get(this._apiEndPoint);
       return response.data;
     } catch (error: any) {
       console.error(error);
-      return error;
+      throw error;
     }
   }
 
-  public async findById(id: string): Promise<T> {
+  public async findById(id: number): Promise<T> {
     try {
       const response = await axios.get<T>(`${this._apiEndPoint}/${id}`);
       return response.data;
     } catch (error: any) {
       console.error(error);
-      return error;
+      throw error;
     }
   }
 
@@ -34,26 +34,26 @@ export default class BaseService<T> implements IBaseService<T> {
       return response.data;
     } catch (error: any) {
       console.error(error);
-      return error;
+      throw error;
     }
   }
 
-  public async update(id: string, data: T): Promise<T> {
+  public async update(id: number, data: T): Promise<T> {
     try {
       const response = await axios.put<T>(`${this._apiEndPoint}/${id}`, data);
       return response.data;
     } catch (error: any) {
       console.error(error);
-      return error;
+      throw error;
     }
   }
 
-  public async delete(id: string): Promise<void> {
+  public async delete(id: number): Promise<void> {
     try {
       await axios.delete(`${this._apiEndPoint}/${id}`);
     } catch (error: any) {
       console.error(error);
-      return error;
+      throw error;
     }
   }
 }

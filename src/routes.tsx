@@ -1,11 +1,11 @@
 import { RouteObject } from "react-router-dom";
 import App from "./App.tsx";
 import CategoriesBrowser from "./components/categories/Categories.browser.tsx";
+import CategoriesLoader from "./components/categories/Categories.loader.tsx";
 import Dashboard from "./components/dashboard/Dashboard.tsx";
 import RecordsBrowser from "./components/records/Records.browser.tsx";
-import ErrorPage from "./pages/ErrorPage.tsx";
-import CategoriesLoader from "./components/categories/Categories.loader.tsx";
 import RecordsLoader from "./components/records/Records.loader.tsx";
+import ErrorPage from "./pages/ErrorPage.tsx";
 
 const routes: RouteObject[] = [
   {
@@ -15,9 +15,9 @@ const routes: RouteObject[] = [
     children: [
       { index: true, element: <Dashboard /> },
       { path: "categories", element: <CategoriesBrowser /> },
-      { path: "categories/form/:id", element: <CategoriesLoader /> },
+      { path: "categories/:id", element: <CategoriesLoader /> },
       { path: "records", element: <RecordsBrowser /> },
-      { path: "records/form/:id", element: <RecordsLoader /> },
+      { path: "records/:id", element: <RecordsLoader /> },
     ],
   },
 ];
