@@ -88,7 +88,16 @@ function NavBar() {
 
   useEffect(() => {
     // Set current active menu item
-    const idx = navigation.findIndex((item) => item.href === location.pathname);
+    let idx = navigation.findIndex((item) => {
+      return item.href === location.pathname;
+    });
+
+    if (idx === -1) {
+      idx = navigation.findIndex((item) => {
+        return item.href === `/${location.pathname.split("/")[1]}`;
+      });
+    }
+
     setMenuItemCurr(
       menuItemCurr.map((item) => {
         return {

@@ -14,8 +14,8 @@
   "categories": [
     {
       "id": 1,
-      "name": "General!!!",
-      "description": "General category!!!"
+      "name": "General",
+      "description": "General category"
     },
     {
       "id": 2,
@@ -51,7 +51,7 @@
   "records": [
     {
       "id": 1,
-      "categoryId": 7,
+      "categoryId": "7",
       "title": "Eurobank",
       "username": "tauromanix",
       "password": "paok!Ci281978!",

@@ -6,12 +6,14 @@ import {
   PencilIcon,
   PhoneIcon,
   PlayCircleIcon,
+  PlusIcon,
   ServerIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { UseQueryResult } from "@tanstack/react-query";
 import { Table } from "flowbite-react";
 import { Fragment, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { navigation } from "../../template/NavBar";
 
 interface BaseBrowserProps {
@@ -23,6 +25,7 @@ function BaseBrowser({ title, queryFn }: BaseBrowserProps) {
   const [showModel, setShowModel] = useState(false);
   const { data, error, isPending, refetch, isFetching } = queryFn();
   const columns = data && Object.keys(data[0]);
+  const navigate = useNavigate();
   const GetIcon: any = () =>
     navigation
       .find((item: any) => {
@@ -34,7 +37,7 @@ function BaseBrowser({ title, queryFn }: BaseBrowserProps) {
     {
       name: "Edit",
       description: "Edit details for the current record",
-      href: "#",
+      href: `/${title.toLowerCase()}/`,
       icon: PencilIcon,
     },
     {
@@ -85,7 +88,11 @@ function BaseBrowser({ title, queryFn }: BaseBrowserProps) {
                       <button
                         type="button"
                         className="font-semibold text-gray-900"
-                        onClick={() => console.log(id)}
+                        onClick={() => {
+                          item.name === "Edit" &&
+                            navigate(item.href + id.itemId);
+                          item.name === "Delete" && console.log("Delete");
+                        }}
                       >
                         {item.name}
                         <span className="absolute inset-0" />
@@ -126,12 +133,19 @@ function BaseBrowser({ title, queryFn }: BaseBrowserProps) {
             {title}
           </h1>
           <div className="flex space-x-2">
+            <PlusIcon
+              className="h-8 w-8 inline-block text-cyan-600 cursor-pointer"
+              title="Add new record"
+              onClick={() => navigate(`/${title.toLowerCase()}/0`)}
+            />
             <ArrowPathIcon
               className="h-8 w-8 inline-block text-cyan-600 cursor-pointer"
+              title="Refresh data"
               onClick={() => refetch()}
             />
             <ServerIcon
               className="h-8 w-8 inline-block text-cyan-600 cursor-pointer"
+              title="Show data model"
               onClick={() => setShowModel(!showModel)}
             />
           </div>
