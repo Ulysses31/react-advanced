@@ -5,6 +5,8 @@ import CategoriesService from "../../services/categories.service";
 import BaseBrowser from "../base/Base.browser";
 
 function CategoriesBrowser() {
+  const title = 'Categories';
+
   const getCategories = () => {
     return useQuery({
       retry: 0,
@@ -20,7 +22,12 @@ function CategoriesBrowser() {
     });
   };
 
-  return <BaseBrowser title="Categories" queryFn={getCategories} />;
+  return (
+    <BaseBrowser
+      title={title}
+      queryFn={getCategories}
+    />
+  );
 }
 
 export default CategoriesBrowser;

@@ -69,13 +69,25 @@ function BaseLoader({
 
   return (
     <>
-      <h1>{title}</h1>
+      <header className="bg-white shadow-md mb-6">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-500">
+            {title} Form
+          </h1>
+        </div>
+      </header>
 
       {isLoading && <p>Loading...</p>}
 
       {error && (
         <p>An error occurred {(error as AxiosError).response?.statusText}</p>
       )}
+
+      {mutation.isError && <p>An error occurred {mutation.error.message}</p>}
+
+      {mutation.isPending && <p>Submitting data...</p>}
+
+      {mutation.isSuccess && <p>Successfully submitted data</p>}
 
       {!isLoading && (
         <form onSubmit={handleSubmit(onSubmit)}>
