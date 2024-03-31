@@ -58,6 +58,29 @@ Testing snippets ... it... qt...
 
 [Test Queries Documentation](https://testing-library.com/docs/)
 
+## Database (db.json)
+
+if database file db.json does not exist in src/data folder create it and add...
+```bash
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Guest",
+      "isAdmin": false
+    },
+    {
+      "id": 2,
+      "name": "Admin",
+      "isAdmin": true
+    }
+  ],
+  "categories": [],
+  "records": []
+}
+
+```
+
 ## Setting up Auth0 for Authentication
 
 1. **Sign up for an Auth0 Account:**
