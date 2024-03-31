@@ -74,7 +74,6 @@ function BaseLoader({
   });
 
   useEffect(() => {
-    console.log("Form Init.....");
     reset(data);
     return () => {};
   }, [data, reset]);

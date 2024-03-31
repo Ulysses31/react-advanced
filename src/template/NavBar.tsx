@@ -94,7 +94,7 @@ function NavBar() {
   const handleDarkMode = () => {
     setIsDarkMode((isDarkMode: boolean) => !isDarkMode);
     setCookie("dark-mode", !isDarkMode, {
-      expires: new Date(new Date().setMinutes(new Date().getMinutes() + 5))
+      expires: new Date(new Date().setMinutes(new Date().getMinutes() + 5)),
     });
   };
 
@@ -188,14 +188,18 @@ function NavBar() {
                     )}
 
                     <div className="rounded">
-                      <label htmlFor="one">
-                        <input
-                          id="one"
-                          type="checkbox"
-                          onChange={handleDarkMode}
-                          checked={isDarkMode}
-                        />
-                      </label>
+                      <form>
+                        <label htmlFor="darkMode">
+                          <input
+                            id="darkMode"
+                            name="darkMode"
+                            type="checkbox"
+                            value={isDarkMode}
+                            onChange={handleDarkMode}
+                            checked={isDarkMode}
+                          />
+                        </label>
+                      </form>
                     </div>
 
                     <button
