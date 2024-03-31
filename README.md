@@ -114,6 +114,11 @@ if database file db.json does not exist in src/data folder create it and add...
    - In the root directory of the project, you'll find a sample `.env` file. Make a copy and save it as `.env.local`.
    - Replace the Auth0 Domain and Client ID with the actual values you obtained from Auth0.
 
+6. **Examples**
+   
+   - [Auth0 github](https://github.com/auth0/auth0-react/?tab=readme-ov-file)
+
+
 
 ## Running the App
 

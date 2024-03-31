@@ -1,5 +1,6 @@
 import { RouteObject } from "react-router-dom";
 import App from "./App.tsx";
+import UserProfile from "./components/auth/UserProfile.tsx";
 import CategoriesBrowser from "./components/categories/Categories.browser.tsx";
 import CategoriesLoader from "./components/categories/Categories.loader.tsx";
 import Dashboard from "./components/dashboard/Dashboard.tsx";
@@ -14,6 +15,7 @@ const routes: RouteObject[] = [
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Dashboard /> },
+      { path: "user/profile", element: <UserProfile /> },
       { path: "categories", element: <CategoriesBrowser /> },
       { path: "categories/:id", element: <CategoriesLoader /> },
       { path: "records", element: <RecordsBrowser /> },

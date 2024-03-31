@@ -1,12 +1,19 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useAuth0 } from "@auth0/auth0-react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   BellIcon,
   CircleStackIcon,
+  LockOpenIcon,
   MoonIcon,
   NewspaperIcon,
   SunIcon,
   SwatchIcon,
+  UserGroupIcon,
+  UsersIcon,
+  WrenchScrewdriverIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
@@ -75,18 +82,34 @@ function NavBar() {
   const location = useLocation();
   const [cookies, setCookie] = useCookies(["dark-mode"]);
   const [isDarkMode, setIsDarkMode] = useState(cookies["dark-mode"]);
+  const {
+    loginWithRedirect,
+    logout,
+    user: authUser,
+    isAuthenticated,
+  } = useAuth0();
 
   const user = {
-    name: "Tom Cook",
-    email: "tom@example.com",
     imageUrl:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
   };
 
   const userNavigation = [
-    { name: "Your Profile", href: "#" },
-    { name: "Settings", href: "#" },
-    { name: "Sign out", href: "#" },
+    {
+      name: "Profile",
+      href: "/user/profile",
+      icon: <UserGroupIcon className="w-6 h-6" aria-hidden="true" />,
+    },
+    {
+      name: "Settings",
+      href: "#",
+      icon: <WrenchScrewdriverIcon className="w-6 h-6" aria-hidden="true" />,
+    },
+    {
+      name: "Sign out",
+      href: "#",
+      icon: <LockOpenIcon className="w-6 h-6" aria-hidden="true" />,
+    },
   ];
 
   const [menuItemCurr, setMenuItemCurr] = useState(navigation);
@@ -211,47 +234,77 @@ function NavBar() {
                       <BellIcon className="h-6 w-6" aria-hidden="true" />
                     </button>
 
-                    {/* Profile dropdown */}
-                    <Menu as="div" className="relative ml-3">
-                      <div>
-                        <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                          <span className="absolute -inset-1.5" />
-                          <span className="sr-only">Open user menu</span>
-                          <img
-                            className="h-8 w-8 rounded-full"
-                            src={user.imageUrl}
-                            alt=""
-                          />
-                        </Menu.Button>
-                      </div>
-                      <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
+                    {/* Login */}
+                    {!isAuthenticated && (
+                      <button
+                        type="button"
+                        className="flex relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                        onClick={() => loginWithRedirect()}
                       >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ">
-                          {userNavigation.map((item) => (
-                            <Menu.Item key={item.name}>
-                              {({ active }) => (
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    active ? "dark:hover:bg-gray-600" : "",
-                                    "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600"
-                                  )}
-                                >
-                                  {item.name}!!!
-                                </a>
-                              )}
-                            </Menu.Item>
-                          ))}
-                        </Menu.Items>
-                      </Transition>
-                    </Menu>
+                        <UsersIcon
+                          className="h-6 w-6 mr-2"
+                          aria-hidden="true"
+                        />
+                        Login
+                      </button>
+                    )}
+
+                    {/* Profile dropdown */}
+                    {isAuthenticated && (
+                      <Menu as="div" className="relative ml-0">
+                        <div>
+                          <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                            <span className="absolute -inset-1.5" />
+                            <span className="sr-only">Open user menu</span>
+                            <img
+                              className="h-8 w-8 rounded-full"
+                              src={authUser?.picture}
+                              alt="logged in user avatar"
+                            />
+                          </Menu.Button>
+                        </div>
+                        <Transition
+                          as={Fragment}
+                          enter="transition ease-out duration-100"
+                          enterFrom="transform opacity-0 scale-95"
+                          enterTo="transform opacity-100 scale-100"
+                          leave="transition ease-in duration-75"
+                          leaveFrom="transform opacity-100 scale-100"
+                          leaveTo="transform opacity-0 scale-95"
+                        >
+                          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ">
+                            {userNavigation.map((item) => (
+                              <Menu.Item key={item.name}>
+                                {({ active }) => (
+                                  <div className="flex justify-items-center">
+                                    <Link
+                                      to={item.href}
+                                      className={classNames(
+                                        active ? "dark:hover:bg-gray-600" : "",
+                                        "flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600"
+                                      )}
+                                      onClick={() => {
+                                        // console.log("item", item);
+                                        if (item.name === "Sign out") {
+                                          logout({
+                                            logoutParams: {
+                                              returnTo: window.location.origin,
+                                            },
+                                          });
+                                        }
+                                      }}
+                                    >
+                                      <span className="mr-2">{item.icon}</span>
+                                      {item.name}
+                                    </Link>
+                                  </div>
+                                )}
+                              </Menu.Item>
+                            ))}
+                          </Menu.Items>
+                        </Transition>
+                      </Menu>
+                    )}
                   </div>
                 </div>
                 <div className="-mr-2 flex md:hidden">
@@ -289,49 +342,117 @@ function NavBar() {
                   </Disclosure.Button>
                 ))}
               </div>
+
               <div className="border-t border-gray-700 pb-3 pt-4">
-                <div className="flex items-center px-5">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="h-10 w-10 rounded-full"
-                      src={user.imageUrl}
-                      alt=""
-                    />
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium leading-none text-white">
-                      {user.name}
-                    </div>
-                    <div className="text-sm font-medium leading-none text-gray-400">
-                      {user.email}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  >
-                    <span className="absolute -inset-1.5" />
-                    <span className="sr-only">View notifications</span>
-                    <BellIcon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                </div>
-                <div className="mt-3 space-y-1 px-2">
-                  {userNavigation.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      as="a"
-                      href={item.href}
-                      className="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                <div className="flex items-center px-5 border-b border-gray-700 pb-3">
+                  {/* Login */}
+                  {!isAuthenticated && (
+                    <button
+                      type="button"
+                      className="flex relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                      onClick={() => loginWithRedirect()}
                     >
-                      {item.name}
-                    </Disclosure.Button>
-                  ))}
+                      <UsersIcon className="h-6 w-6 mr-2" aria-hidden="true" />
+                      Login
+                    </button>
+                  )}
+
+                  {isAuthenticated && (
+                    <div className="flex place-items-center">
+                      <div className="flex-shrink-0">
+                        <img
+                          className="h-10 w-10 rounded-full"
+                          src={authUser?.picture || user.imageUrl}
+                          alt="user avatar"
+                        />
+                      </div>
+                      <div className="ml-3">
+                        <div className="text-sm font-medium leading-none text-white">
+                          {authUser?.name}
+                        </div>
+                        <div className="text-sm font-medium leading-none text-gray-400">
+                          {authUser?.email}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex place-items-center relative ml-auto flex-shrink-0 bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    {isDarkMode && (
+                      <MoonIcon
+                        className="h-6 w-6 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    )}
+
+                    {!isDarkMode && (
+                      <SunIcon
+                        className="h-6 w-6 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    )}
+
+                    <div className="rounded ml-2">
+                      <form>
+                        <label htmlFor="darkMode">
+                          <input
+                            id="darkMode"
+                            name="darkMode"
+                            type="checkbox"
+                            value={isDarkMode}
+                            onChange={handleDarkMode}
+                            checked={isDarkMode}
+                          />
+                        </label>
+                      </form>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    >
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">View notifications</span>
+                      <BellIcon className="h-6 w-6" aria-hidden="true" />
+                    </button>
+                  </div>
                 </div>
+                {isAuthenticated && (
+                  <div className="mt-3 space-y-1 px-2">
+                    {userNavigation.map((item) => (
+                      <Disclosure.Button
+                        key={item.name}
+                        as="a"
+                        href={item.href}
+                        onClick={() => {
+                          // console.log("item", item);
+                          if (item.name === "Sign out") {
+                            logout({
+                              logoutParams: {
+                                returnTo: window.location.origin,
+                              },
+                            });
+                          }
+                        }}
+                        className="flex rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
+                      >
+                        <span className="mr-2">{item.icon}</span>
+                        {item.name}
+                      </Disclosure.Button>
+                    ))}
+                  </div>
+                )}
               </div>
             </Disclosure.Panel>
           </>
         )}
       </Disclosure>
+
+      {/* {isAuthenticated && (
+        <code className="text-sm dark:text-gray-400 block shadow-md mt-2 mr-6 ml-6 p-3 overflow-auto">
+          <pre>{JSON.stringify(authUser, null, 2)}</pre>
+        </code>
+      )} */}
     </div>
   );
 }
