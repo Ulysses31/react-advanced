@@ -8,8 +8,10 @@ export default {
   theme: {
     extend: {},
   },
+  darkMode: 'selector',
   plugins: [
     require('@tailwindcss/typography'),
-    require("flowbite/plugin")
+    require('@tailwindcss/forms'),
+    require("flowbite/plugin"),
   ],
 };

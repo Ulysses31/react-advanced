@@ -14,7 +14,7 @@
   "categories": [
     {
       "id": 1,
-      "name": "General",
+      "name": "General!",
       "description": "General category"
     },
     {
@@ -273,6 +273,15 @@
       "password": "Ci281978!paok",
       "url": "https://dashboard.heroku.com/apps",
       "notes": ""
+    },
+    {
+      "id": 26,
+      "categoryId": 1,
+      "title": "Test",
+      "username": "Test",
+      "password": "Test",
+      "url": "Test",
+      "notes": "Test"
     }
   ]
 }

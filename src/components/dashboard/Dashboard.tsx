@@ -1,17 +1,327 @@
 // import {Styles} from './Dashboard.module.css'
 
-import { NewspaperIcon } from "@heroicons/react/24/outline";
+import { ArrowPathIcon, ServerIcon } from "@heroicons/react/24/outline";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import CategoriesService from "../../services/categories.service";
+import RecordsService from "../../services/records.service";
+import { navigation } from "../../template/NavBar";
 
 function Dashboard() {
+  const title = "Dashboard";
+  const fRecords: any = [];
+  const [filterdRecords, setFilterdRecords] = useState(fRecords);
+  const [showModel, setShowModel] = useState(false);
+  const GetIcon: any = () =>
+    navigation
+      .find((item: any) => {
+        return item.name === title;
+      })
+      ?.icon({}, 7, 7);
+
+  // Queries
+  const useCategoriesQry = () => {
+    return useQuery({
+      retry: 0,
+      queryKey: ["Categories", "all"],
+      queryFn: async () => {
+        const data = await new CategoriesService().findAll();
+        return data;
+      },
+    });
+  };
+
+  const useRecordsQry = () => {
+    return useQuery({
+      retry: 0,
+      queryKey: ["Records", "all"],
+      queryFn: async () => {
+        const data = await new RecordsService().findAll();
+        return data;
+      },
+    });
+  };
+
+  const {
+    data: categories,
+    error: categoryError,
+    isPending: categoryIsPending,
+    isFetching: categoryIsFetching,
+    refetch: categoryRefetch,
+  } = useCategoriesQry();
+
+  const {
+    data: records,
+    error: recordError,
+    isPending: recordIsPending,
+    isFetching: recordIsFetching,
+    refetch: recordRefetch,
+  } = useRecordsQry();
+
+  const handleCategoryChange = (id: number) => {
+    setFilterdRecords(
+      records &&
+        records.filter((record: any) => {
+          return record.categoryId === id;
+        })
+    );
+  };
+
+  useEffect(() => {
+    setFilterdRecords(
+      records &&
+        records.filter((record: any) => {
+          return (
+            categories &&
+            categories.length > 0 &&
+            record.categoryId === categories[0].id
+          );
+        })
+    );
+    return () => {};
+  }, [categories, records, categoryIsFetching, recordIsFetching]);
+
   return (
-    <header className="bg-white shadow-md">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 className="flex text-2xl font-bold tracking-tight text-gray-500">
-          <NewspaperIcon className="mr-2 h-7 w-7" aria-hidden="true" />
-          Dashboard
-        </h1>
-      </div>
-    </header>
+    <>
+      <header className="bg-white dark:bg-gray-800 shadow-md mb-6">
+        <div className="flex place-content-between mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <h1 className="flex text-2xl font-bold tracking-tight text-gray-500 dark:text-cyan-500">
+            <GetIcon />
+            {title}
+          </h1>
+          <div className="flex space-x-2">
+            <ArrowPathIcon
+              className="h-8 w-8 inline-block text-cyan-600 dark:text-cyan-500 cursor-pointer"
+              title="Refresh data"
+              onClick={() => {
+                categoryRefetch();
+                recordRefetch();
+              }}
+            />
+            <ServerIcon
+              className="h-8 w-8 inline-block text-cyan-600 dark:text-cyan-500 cursor-pointer"
+              title="Show data model"
+              onClick={() => setShowModel(!showModel)}
+            />
+          </div>
+        </div>
+      </header>
+      {(categoryIsPending ||
+        recordIsPending ||
+        categoryIsFetching ||
+        recordIsFetching) && (
+        <p className="flex m-5 justify-center place-items-center font-bold text-gray-400 dark:text-cyan-500">
+          <ArrowPathIcon className="h-8 w-8 inline-block text-cyan-600 dark:text-cyan-500 mr-2 animate-spin" />
+          Loading...
+        </p>
+      )}
+      {(categoryError || recordError) && (
+        <div className="flex-col p-10 place-content-center text-center bg-white dark:bg-gray-800 shadow-md space-y-2 mb-6">
+          <h2 className="font-bold text-4xl text-red-500 dark:text-red-400">
+            Error
+          </h2>
+          <p className="font-normal text-lg text-gray-500 dark:text-cyan-500">
+            An error occurred {categoryError && categoryError.message}
+            {recordError && recordError.message}
+          </p>
+        </div>
+      )}
+      {showModel && (
+        <div>
+          {!categoryIsPending && !recordIsPending && (
+            <>
+              <pre className="bg-white dark:bg-gray-800 dark:text-cyan-500 p-3 h-96 mb-6 overflow-auto shadow-md">
+                <code className="text-sm">
+                  {categories && JSON.stringify(categories, null, 2)}
+                </code>
+              </pre>
+              <pre className="bg-white dark:bg-gray-800 dark:text-cyan-500 p-3 h-96 mb-6 overflow-auto shadow-md">
+                <code className="text-sm">
+                  {records && JSON.stringify(records, null, 2)}
+                </code>
+              </pre>
+            </>
+          )}
+        </div>
+      )}
+
+      {categories &&
+        categories.length === 0 &&
+        !categoryIsPending &&
+        !recordIsPending &&
+        (!categoryIsFetching || !recordIsFetching) && (
+          <div className="shadow-md p-5 bg-white dark:bg-gray-800 mb-6 max-h-screen overflow-y-auto">
+            <p className="text-center font-bold text-gray-500 dark:text-cyan-500">
+              No categories found
+            </p>
+          </div>
+        )}
+      {categories &&
+        categories.length > 0 &&
+        (!categoryIsPending || !recordIsPending) &&
+        (!categoryIsFetching || !recordIsFetching) && (
+          <div className="shadow-md p-5 bg-white dark:bg-gray-800 mb-6">
+            <select
+              id="categoryId"
+              autoComplete="categoryId"
+              className="block w-1/3 rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
+              onChange={(e) => handleCategoryChange(parseInt(e.target.value))}
+            >
+              {(!categoryIsPending || !recordIsPending) &&
+                (!categoryIsFetching || !recordIsFetching) &&
+                categories?.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+            </select>
+          </div>
+        )}
+
+      {filterdRecords &&
+        filterdRecords.length === 0 &&
+        !categoryIsPending &&
+        !recordIsPending &&
+        (!categoryIsFetching || !recordIsFetching) && (
+          <div className="shadow-md p-5 bg-white dark:bg-gray-800 mb-6 max-h-screen overflow-y-auto">
+            <p className="text-center font-bold text-gray-500 dark:text-cyan-500">
+              No records found
+            </p>
+          </div>
+        )}
+      {filterdRecords &&
+        filterdRecords.length > 0 &&
+        (!categoryIsPending || !recordIsPending) &&
+        (!categoryIsFetching || !recordIsFetching) && (
+          <div className="shadow-md p-5 bg-white dark:bg-gray-800 mb-6 max-h-screen overflow-y-auto">
+            {(!categoryIsPending || !recordIsPending) &&
+              (!categoryIsFetching || !recordIsFetching) &&
+              filterdRecords.map((record: any) => (
+                <div
+                  key={record.id}
+                  className="shadow-md p-5 bg-white dark:bg-gray-900 mb-6"
+                >
+                  <div className="px-4 sm:px-0">
+                    <h3 className="text-base font-semibold leading-7 text-gray-900 dark:text-cyan-500">
+                      Applicant Information
+                    </h3>
+                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500 dark:text-cyan-600">
+                      Personal details and application.
+                    </p>
+                  </div>
+                  <div className="mt-6 border-t border-gray-100 dark:border-gray-700">
+                    <dl className="divide-y divide-gray-100 dark:divide-gray-700">
+                      <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-sm font-bold leading-6 text-gray-900 dark:text-cyan-600">
+                          Title
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-cyan-600">
+                          {record.title}
+                        </dd>
+                      </div>
+                      <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-sm font-bold leading-6 text-gray-900 dark:text-cyan-600">
+                          Username
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-cyan-600">
+                          {record.username}
+                        </dd>
+                      </div>
+                      <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-sm font-bold leading-6 text-gray-900 dark:text-cyan-600">
+                          Password
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-cyan-600">
+                          {record.password}
+                        </dd>
+                      </div>
+                      <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <dt className="text-sm font-bold leading-6 text-gray-900 dark:text-cyan-600">
+                          Url
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-cyan-600">
+                          {record.url && (
+                            <a href={record.url} target="_blank">
+                              Click here to open url
+                            </a>
+                          )}
+                        </dd>
+                      </div>
+                      <div className="px-1 py-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 ">
+                        <dt className="text-sm font-bold leading-6 text-gray-900 dark:text-cyan-600">
+                          Notes
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 dark:text-cyan-600">
+                          {record.notes}
+                        </dd>
+                      </div>
+                      {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <dt className="text-sm font-medium leading-6 text-gray-900">
+                Attachments
+              </dt>
+              <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                <ul
+                  role="list"
+                  className="divide-y divide-gray-100 rounded-md border border-gray-200"
+                >
+                  <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                    <div className="flex w-0 flex-1 items-center">
+                      <PaperClipIcon
+                        className="h-5 w-5 flex-shrink-0 text-gray-400"
+                        aria-hidden="true"
+                      />
+                      <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                        <span className="truncate font-medium">
+                          resume_back_end_developer.pdf
+                        </span>
+                        <span className="flex-shrink-0 text-gray-400">
+                          2.4mb
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ml-4 flex-shrink-0">
+                      <a
+                        href="#"
+                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                      >
+                        Download
+                      </a>
+                    </div>
+                  </li>
+                  <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
+                    <div className="flex w-0 flex-1 items-center">
+                      <PaperClipIcon
+                        className="h-5 w-5 flex-shrink-0 text-gray-400"
+                        aria-hidden="true"
+                      />
+                      <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                        <span className="truncate font-medium">
+                          coverletter_back_end_developer.pdf
+                        </span>
+                        <span className="flex-shrink-0 text-gray-400">
+                          4.5mb
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ml-4 flex-shrink-0">
+                      <a
+                        href="#"
+                        className="font-medium text-indigo-600 hover:text-indigo-500"
+                      >
+                        Download
+                      </a>
+                    </div>
+                  </li>
+                </ul>
+              </dd>
+            </div> */}
+                    </dl>
+                  </div>
+                </div>
+              ))}
+          </div>
+        )}
+    </>
   );
 }
 

@@ -32,6 +32,8 @@ function RecordsLoader() {
   };
 
   const saveDto = async (id: number, dto: RecordDto) => {
+    dto.id = Number(dto.id);
+    dto.categoryId = Number(dto.categoryId);
     if (id === 0) return new RecordsService().create(dto as RecordDto);
     if (id > 0) return new RecordsService().update(id, dto as RecordDto);
     return Promise.resolve(dto);
@@ -56,18 +58,18 @@ function RecordsLoader() {
     >
       <div className="space-y-12 p-2">
         <div className="pb-7">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
+          <h2 className="text-base font-semibold leading-7 text-gray-900 dark:text-cyan-500">
             {title} Information
           </h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600">
-            Fill the name and description of the record
+          <p className="mt-1 text-sm leading-6 text-gray-600 dark:text-cyan-600">
+            Fill the name and description of the category
           </p>
 
-          <div className="border-t border-gray-900/10 mt-5 pt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          <div className="border-t border-gray-900/10 dark:border-gray-600 mt-5 pt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-2">
               <label
                 htmlFor="id"
-                className="block text-sm font-semibold leading-6 text-gray-900"
+                className="block text-sm font-semibold leading-6 text-gray-900 dark:text-cyan-600"
               >
                 Id
               </label>
@@ -76,7 +78,7 @@ function RecordsLoader() {
                   type="text"
                   id="id"
                   autoComplete="id"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
                   {...register("id")}
                   disabled={true}
                 />
@@ -86,7 +88,7 @@ function RecordsLoader() {
             <div className="sm:col-span-2">
               <label
                 htmlFor="categoryId"
-                className="block text-sm font-semibold leading-6 text-gray-900"
+                className="block text-sm font-semibold leading-6 text-gray-900 dark:text-cyan-600"
               >
                 CategoryId
               </label>
@@ -94,7 +96,7 @@ function RecordsLoader() {
                 <select
                   id="categoryId"
                   autoComplete="categoryId"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
                   {...register("categoryId")}
                 >
                   {data?.map((category) => (
@@ -109,7 +111,7 @@ function RecordsLoader() {
             <div className="sm:col-span-2">
               <label
                 htmlFor="title"
-                className="block text-sm font-semibold leading-6 text-gray-900"
+                className="block text-sm font-semibold leading-6 text-gray-900 dark:text-cyan-600"
               >
                 Title*
               </label>
@@ -118,7 +120,7 @@ function RecordsLoader() {
                   type="text"
                   id="title"
                   autoComplete="family-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
                   {...register("title", {
                     required: "Title is required",
                   })}
@@ -130,7 +132,7 @@ function RecordsLoader() {
             <div className="sm:col-span-2">
               <label
                 htmlFor="username"
-                className="block text-sm font-semibold leading-6 text-gray-900"
+                className="block text-sm font-semibold leading-6 text-gray-900 dark:text-cyan-600"
               >
                 Username*
               </label>
@@ -139,7 +141,7 @@ function RecordsLoader() {
                   type="text"
                   id="username"
                   autoComplete="family-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
                   {...register("username", {
                     required: "Username is required",
                   })}
@@ -151,7 +153,7 @@ function RecordsLoader() {
             <div className="sm:col-span-2">
               <label
                 htmlFor="password"
-                className="block text-sm font-semibold leading-6 text-gray-900"
+                className="block text-sm font-semibold leading-6 text-gray-900 dark:text-cyan-600"
               >
                 Password*
               </label>
@@ -160,7 +162,7 @@ function RecordsLoader() {
                   type="text"
                   id="password"
                   autoComplete="family-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
                   {...register("password", {
                     required: "Password is required",
                   })}
@@ -172,7 +174,7 @@ function RecordsLoader() {
             <div className="sm:col-span-2">
               <label
                 htmlFor="url"
-                className="block text-sm font-semibold leading-6 text-gray-900"
+                className="block text-sm font-semibold leading-6 text-gray-900 dark:text-cyan-600"
               >
                 Url
               </label>
@@ -180,7 +182,7 @@ function RecordsLoader() {
                 <input
                   type="text"
                   id="url"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
                   {...register("url")}
                 />
               </div>
@@ -189,7 +191,7 @@ function RecordsLoader() {
             <div className="sm:col-span-4">
               <label
                 htmlFor="notes"
-                className="block text-sm font-semibold leading-6 text-gray-900"
+                className="block text-sm font-semibold leading-6 text-gray-900 dark:text-cyan-600"
               >
                 Notes
               </label>
@@ -197,7 +199,7 @@ function RecordsLoader() {
                 <textarea
                   id="notes"
                   rows={3}
-                  className="resize-none block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="resize-none block w-full rounded-md border-0 py-1.5 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-400 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 dark:bg-gray-500"
                   {...register("notes", { maxLength: 255 })}
                 ></textarea>
               </div>

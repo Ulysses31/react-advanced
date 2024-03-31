@@ -3,11 +3,14 @@ import {
   Bars3Icon,
   BellIcon,
   CircleStackIcon,
+  MoonIcon,
   NewspaperIcon,
+  SunIcon,
   SwatchIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { Link, useLocation } from "react-router-dom";
 
 export const classNames = (...classes: any) => {
@@ -70,6 +73,8 @@ export const navigation = [
 
 function NavBar() {
   const location = useLocation();
+  const [cookies, setCookie] = useCookies(["dark-mode"]);
+  const [isDarkMode, setIsDarkMode] = useState(cookies["dark-mode"]);
 
   const user = {
     name: "Tom Cook",
@@ -86,7 +91,18 @@ function NavBar() {
 
   const [menuItemCurr, setMenuItemCurr] = useState(navigation);
 
+  const handleDarkMode = () => {
+    setIsDarkMode((isDarkMode: boolean) => !isDarkMode);
+    setCookie("dark-mode", !isDarkMode, {
+      expires: new Date(new Date().setMinutes(new Date().getMinutes() + 5))
+    });
+  };
+
   useEffect(() => {
+    isDarkMode
+      ? document.body.classList.add("dark")
+      : document.body.classList.remove("dark");
+
     // Set current active menu item
     let idx = navigation.findIndex((item) => {
       return item.href === location.pathname;
@@ -107,7 +123,7 @@ function NavBar() {
       })
     );
     return () => {};
-  }, []);
+  }, [isDarkMode]);
 
   return (
     <div className="min-h-full">
@@ -156,7 +172,32 @@ function NavBar() {
                   </div>
                 </div>
                 <div className="hidden md:block">
-                  <div className="ml-4 flex items-center md:ml-6">
+                  <div className="space-x-2 ml-4 flex items-center md:ml-6">
+                    {isDarkMode && (
+                      <MoonIcon
+                        className="h-6 w-6 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    )}
+
+                    {!isDarkMode && (
+                      <SunIcon
+                        className="h-6 w-6 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    )}
+
+                    <div className="rounded">
+                      <label htmlFor="one">
+                        <input
+                          id="one"
+                          type="checkbox"
+                          onChange={handleDarkMode}
+                          checked={isDarkMode}
+                        />
+                      </label>
+                    </div>
+
                     <button
                       type="button"
                       className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -188,18 +229,18 @@ function NavBar() {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ">
                           {userNavigation.map((item) => (
                             <Menu.Item key={item.name}>
                               {({ active }) => (
                                 <a
                                   href={item.href}
                                   className={classNames(
-                                    active ? "bg-gray-100" : "",
-                                    "block px-4 py-2 text-sm text-gray-700"
+                                    active ? "dark:hover:bg-gray-600" : "",
+                                    "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600"
                                   )}
                                 >
-                                  {item.name}
+                                  {item.name}!!!
                                 </a>
                               )}
                             </Menu.Item>
