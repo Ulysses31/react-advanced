@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Guest",
+      "isAdmin": false
+    },
+    {
+      "id": 2,
+      "name": "Admin",
+      "isAdmin": true
+    }
+  ],
+  "categories": [],
+  "records": []
+}
