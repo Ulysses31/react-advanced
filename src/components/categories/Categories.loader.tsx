@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { CategoryDto } from "../../entities";
 import CategoriesService from "../../services/categories.service";
 import BaseLoader from "../base/Base.loader";
-import ErrorMessage from "../error/ErrorMessage";
+import ErrorMessage from "../shared/FormValidationErrorMessage";
 
 function CategoriesLoader() {
   const title = "Categories";

@@ -6,18 +6,14 @@ import { useEffect, useState } from "react";
 import CategoriesService from "../../services/categories.service";
 import RecordsService from "../../services/records.service";
 import { navigation } from "../../template/NavBar";
+import Loading from "../shared/Loading";
+import { getIcon } from "../shared/shared";
 
 function Dashboard() {
   const title = "Dashboard";
   const fRecords: any = [];
   const [filterdRecords, setFilterdRecords] = useState(fRecords);
   const [showModel, setShowModel] = useState(false);
-  const GetIcon: any = () =>
-    navigation
-      .find((item: any) => {
-        return item.name === title;
-      })
-      ?.icon({}, 7, 7);
 
   // Queries
   const useCategoriesQry = () => {
@@ -86,7 +82,7 @@ function Dashboard() {
       <header className="bg-white dark:bg-gray-800 shadow-md mb-6">
         <div className="flex place-content-between mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="flex text-2xl font-bold tracking-tight text-gray-500 dark:text-cyan-500">
-            <GetIcon />
+            {getIcon(navigation, title)}
             {title}
           </h1>
           <div className="flex space-x-2">
@@ -106,15 +102,12 @@ function Dashboard() {
           </div>
         </div>
       </header>
+
       {(categoryIsPending ||
         recordIsPending ||
         categoryIsFetching ||
-        recordIsFetching) && (
-        <p className="flex m-5 justify-center place-items-center font-bold text-gray-400 dark:text-cyan-500">
-          <ArrowPathIcon className="h-8 w-8 inline-block text-cyan-600 dark:text-cyan-500 mr-2 animate-spin" />
-          Loading...
-        </p>
-      )}
+        recordIsFetching) && <Loading />}
+
       {(categoryError || recordError) && (
         <div className="flex-col p-10 place-content-center text-center bg-white dark:bg-gray-800 shadow-md space-y-2 mb-6">
           <h2 className="font-bold text-4xl text-red-500 dark:text-red-400">
@@ -126,6 +119,7 @@ function Dashboard() {
           </p>
         </div>
       )}
+
       {showModel && (
         <div>
           {!categoryIsPending && !recordIsPending && (
@@ -156,6 +150,7 @@ function Dashboard() {
             </p>
           </div>
         )}
+
       {categories &&
         categories.length > 0 &&
         (!categoryIsPending || !recordIsPending) &&
@@ -189,6 +184,7 @@ function Dashboard() {
             </p>
           </div>
         )}
+
       {filterdRecords &&
         filterdRecords.length > 0 &&
         (!categoryIsPending || !recordIsPending) &&
@@ -255,66 +251,6 @@ function Dashboard() {
                           {record.notes}
                         </dd>
                       </div>
-                      {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt className="text-sm font-medium leading-6 text-gray-900">
-                Attachments
-              </dt>
-              <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                <ul
-                  role="list"
-                  className="divide-y divide-gray-100 rounded-md border border-gray-200"
-                >
-                  <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                    <div className="flex w-0 flex-1 items-center">
-                      <PaperClipIcon
-                        className="h-5 w-5 flex-shrink-0 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                        <span className="truncate font-medium">
-                          resume_back_end_developer.pdf
-                        </span>
-                        <span className="flex-shrink-0 text-gray-400">
-                          2.4mb
-                        </span>
-                      </div>
-                    </div>
-                    <div className="ml-4 flex-shrink-0">
-                      <a
-                        href="#"
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                      >
-                        Download
-                      </a>
-                    </div>
-                  </li>
-                  <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                    <div className="flex w-0 flex-1 items-center">
-                      <PaperClipIcon
-                        className="h-5 w-5 flex-shrink-0 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                        <span className="truncate font-medium">
-                          coverletter_back_end_developer.pdf
-                        </span>
-                        <span className="flex-shrink-0 text-gray-400">
-                          4.5mb
-                        </span>
-                      </div>
-                    </div>
-                    <div className="ml-4 flex-shrink-0">
-                      <a
-                        href="#"
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                      >
-                        Download
-                      </a>
-                    </div>
-                  </li>
-                </ul>
-              </dd>
-            </div> */}
                     </dl>
                   </div>
                 </div>

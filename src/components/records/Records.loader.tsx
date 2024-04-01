@@ -6,7 +6,7 @@ import { RecordDto } from "../../entities";
 import CategoriesService from "../../services/categories.service";
 import RecordsService from "../../services/records.service";
 import BaseLoader from "../base/Base.loader";
-import ErrorMessage from "../error/ErrorMessage";
+import ErrorMessage from "../shared/FormValidationErrorMessage";
 
 function RecordsLoader() {
   const title = "Records";
