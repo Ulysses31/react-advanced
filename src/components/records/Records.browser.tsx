@@ -7,7 +7,7 @@ import BaseBrowser from "../base/Base.browser";
 function RecordsBrowser() {
   const title = "Records";
 
-  const getRecords = () => {
+  const useGetRecords = () => {
     return useQuery({
       retry: 0,
       queryKey: [title, 'all'],
@@ -23,7 +23,7 @@ function RecordsBrowser() {
   };
 
   return (
-    <BaseBrowser title={title} queryFn={getRecords} mutationFn={deleteDto} />
+    <BaseBrowser title={title} queryFn={useGetRecords} mutationFn={deleteDto} />
   );
 }
 

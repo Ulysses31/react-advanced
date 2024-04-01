@@ -7,7 +7,7 @@ import BaseBrowser from "../base/Base.browser";
 function CategoriesBrowser() {
   const title = "Categories";
 
-  const getCategories = () => {
+  const useGetCategories = () => {
     return useQuery({
       retry: 0,
       queryKey: [title, 'all'],
@@ -23,7 +23,7 @@ function CategoriesBrowser() {
   };
 
   return (
-    <BaseBrowser title={title} queryFn={getCategories} mutationFn={deleteDto} />
+    <BaseBrowser title={title} queryFn={useGetCategories} mutationFn={deleteDto} />
   );
 }
 

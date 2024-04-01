@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 @layer base {
-
   label {
     @apply h-6 relative inline-block;
   }
@@ -38,9 +37,9 @@
   }
 }
 
-
 :root {
-  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+    sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
